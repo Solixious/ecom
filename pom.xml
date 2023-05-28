@@ -156,6 +156,7 @@
 				<artifactId>flyway-maven-plugin</artifactId>
 				<configuration>
 					<url>jdbc:postgresql://localhost:5432/ecom</url>
+					<!-- Update the username and password of postgres with relevant local values -->
 					<user>postgres</user>
 					<password>@StormInCodes44</password>
 				</configuration>
