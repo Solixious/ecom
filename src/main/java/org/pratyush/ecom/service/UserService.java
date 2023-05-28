@@ -24,14 +24,14 @@ public class UserService {
     private final UserRepository userRepository;
     private final RefreshTokenRepository refreshTokenRepository;
     private final PasswordEncoder passwordEncoder;
-    private final JwtUtil jwtUtil;
+    private final JwtService jwtService;
     private final Mapper mapper;
 
-    public UserService(UserRepository userRepository, RefreshTokenRepository refreshTokenRepository, PasswordEncoder passwordEncoder, JwtUtil jwtUtil, Mapper mapper) {
+    public UserService(UserRepository userRepository, RefreshTokenRepository refreshTokenRepository, PasswordEncoder passwordEncoder, JwtService jwtService, Mapper mapper) {
         this.userRepository = userRepository;
         this.refreshTokenRepository = refreshTokenRepository;
         this.passwordEncoder = passwordEncoder;
-        this.jwtUtil = jwtUtil;
+        this.jwtService = jwtService;
         this.mapper = mapper;
     }
 
@@ -48,7 +48,7 @@ public class UserService {
                 .flatMap(userRepository::findByEmail)
                 .filter(user -> passwordEncoder.matches(request.getPassword(), user.getPassword()))
                 .flatMap(user ->
-                        Mono.zip(Mono.just(jwtUtil.generateToken(user)), refreshTokenRepository.createRefreshToken(user))
+                        Mono.zip(Mono.just(jwtService.generateToken(user)), refreshTokenRepository.createRefreshToken(user))
                                 .map(tuple -> new AuthResponse(tuple.getT1(), tuple.getT2())))
                 .switchIfEmpty(Mono.empty());
     }
@@ -57,7 +57,7 @@ public class UserService {
         return Mono.just(request)
                 .map(AuthRefreshRequest::getRefreshToken)
                 .flatMap(userRepository::findByRefreshToken)
-                .map(user -> new AuthRefreshResponse(jwtUtil.generateToken(user)))
+                .map(user -> new AuthRefreshResponse(jwtService.generateToken(user)))
                 .switchIfEmpty(Mono.empty());
     }
 
