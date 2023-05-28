@@ -9,3 +9,9 @@ E-commerce application backend
 5. Execute the flyway db migration. `mvn flyway:migrate`
 6. Build the project to generate JOOQ classes. `mvn clean install`
 
+### Technologies
+1. Java
+2. Spring Boot
+3. Spring Reactive
+4. Maven
+5. Postgres
