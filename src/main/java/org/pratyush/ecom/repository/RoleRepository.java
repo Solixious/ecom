@@ -3,8 +3,10 @@ package org.pratyush.ecom.repository;
 import lombok.extern.slf4j.Slf4j;
 import org.jooq.DSLContext;
 import org.jooq.Record1;
+import org.pratyush.ecom.db.tables.records.TblRolesRecord;
 import org.pratyush.ecom.model.dto.User;
 import org.pratyush.ecom.constants.Role;
+import org.pratyush.ecom.model.request.AddNewRoleRequest;
 import org.pratyush.ecom.model.request.UserRegistrationRequest;
 import org.springframework.stereotype.Repository;
 import reactor.core.publisher.Flux;
@@ -24,6 +26,14 @@ public class RoleRepository {
 
     public RoleRepository(DSLContext dsl) {
         this.dsl = dsl;
+    }
+
+    public Mono<Boolean> addNewRole(AddNewRoleRequest request) {
+        TblRolesRecord record = dsl.newRecord(TBL_ROLES, request);
+        return Mono.from(
+                dsl.insertInto(TBL_ROLES)
+                        .set(record))
+                .map(i -> i > 0);
     }
 
     public Mono<User> attachRoles(User user) {
