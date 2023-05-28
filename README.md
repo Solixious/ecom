@@ -15,3 +15,4 @@ E-commerce application backend
 3. Spring Reactive
 4. Maven
 5. Postgres
+6. JOOQ
