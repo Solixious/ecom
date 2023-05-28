@@ -1,5 +1,6 @@
 package org.pratyush.ecom.controller;
 
+import org.pratyush.ecom.constants.UrlPath;
 import org.pratyush.ecom.model.request.AuthRefreshRequest;
 import org.pratyush.ecom.model.request.AuthRequest;
 import org.pratyush.ecom.model.request.UserRegistrationRequest;
@@ -15,26 +16,26 @@ import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Mono;
 
 @RestController
-@RequestMapping("/user")
+@RequestMapping(UrlPath.USER)
 public class UserController {
 
     @Autowired
     private UserService userService;
 
-    @PostMapping("/register")
+    @PostMapping(UrlPath.REGISTER)
     public Mono<ResponseEntity<UserRegistrationResponse>> register(@RequestBody Mono<UserRegistrationRequest> request) {
         return request.flatMap(userService::register)
                 .map(ResponseEntity::ok);
     }
 
-    @PostMapping("/login")
+    @PostMapping(UrlPath.LOGIN)
     public Mono<ResponseEntity<AuthResponse>> login(@RequestBody Mono<AuthRequest> request) {
         return request.flatMap(userService::login)
                 .map(ResponseEntity::ok)
                 .switchIfEmpty(Mono.just(ResponseEntity.status(HttpStatus.UNAUTHORIZED).build()));
     }
 
-    @PostMapping("/token/generate")
+    @PostMapping(UrlPath.TOKEN_GENERATE)
     public Mono<ResponseEntity<AuthRefreshResponse>> tokenGenerate(@RequestBody Mono<AuthRefreshRequest> request) {
         return request.flatMap(userService::refreshToken)
                 .map(ResponseEntity::ok)
