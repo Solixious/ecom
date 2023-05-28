@@ -1,5 +1,6 @@
 package org.pratyush.ecom.config;
 
+import org.pratyush.ecom.constants.AuthConstants;
 import org.springframework.http.HttpHeaders;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -27,9 +28,9 @@ public class SecurityContextRepository implements ServerSecurityContextRepositor
     @Override
     public Mono<SecurityContext> load(ServerWebExchange exchange) {
         return Mono.justOrEmpty(exchange.getRequest().getHeaders().getFirst(HttpHeaders.AUTHORIZATION))
-                .filter(authHeader -> authHeader.startsWith("Bearer "))
+                .filter(authHeader -> authHeader.startsWith(AuthConstants.BEARER))
                 .flatMap(authHeader -> {
-                    String authToken = authHeader.substring(7);
+                    String authToken = authHeader.substring(AuthConstants.BEARER.length());
                     Authentication auth = new UsernamePasswordAuthenticationToken(authToken, authToken);
                     return this.authenticationManager.authenticate(auth).map(SecurityContextImpl::new);
                 });

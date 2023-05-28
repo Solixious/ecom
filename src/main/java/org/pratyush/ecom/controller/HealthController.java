@@ -1,6 +1,7 @@
 package org.pratyush.ecom.controller;
 
 
+import org.pratyush.ecom.constants.UrlPath;
 import org.pratyush.ecom.model.response.HealthResponse;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -9,7 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 import reactor.core.publisher.Mono;
 
 @RestController
-@RequestMapping("/health")
+@RequestMapping(UrlPath.HEALTH)
 public class HealthController {
 
     @GetMapping

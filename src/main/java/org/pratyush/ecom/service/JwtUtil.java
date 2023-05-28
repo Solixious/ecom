@@ -4,6 +4,7 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.security.Keys;
 import io.jsonwebtoken.Jwts;
 import jakarta.annotation.PostConstruct;
+import org.pratyush.ecom.constants.AuthConstants;
 import org.pratyush.ecom.model.dto.User;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -51,7 +52,7 @@ public class JwtUtil {
 
     public String generateToken(User user) {
         Map<String, Object> claims = new HashMap<>();
-        claims.put("role", user.getRoles());
+        claims.put(AuthConstants.ROLE, user.getRoles());
         return doGenerateToken(claims, user.getEmail());
     }
 

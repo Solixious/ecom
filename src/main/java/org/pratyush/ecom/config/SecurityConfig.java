@@ -1,5 +1,6 @@
 package org.pratyush.ecom.config;
 
+import org.pratyush.ecom.constants.AuthConstants;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.reactive.EnableWebFluxSecurity;
@@ -29,7 +30,7 @@ public class SecurityConfig {
                 .authenticationManager(authenticationManager)
                 .securityContextRepository(securityContextRepository)
                 .authorizeExchange()
-                .pathMatchers("/user/login", "/user/token/generate", "/user/register").permitAll()
+                .pathMatchers(AuthConstants.OPEN_PATHS).permitAll()
                 .anyExchange().authenticated()
                 .and()
                 .build();

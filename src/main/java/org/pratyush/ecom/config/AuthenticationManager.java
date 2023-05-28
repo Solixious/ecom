@@ -1,6 +1,7 @@
 package org.pratyush.ecom.config;
 
 import io.jsonwebtoken.Claims;
+import org.pratyush.ecom.constants.AuthConstants;
 import org.pratyush.ecom.service.JwtUtil;
 import org.springframework.security.authentication.ReactiveAuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -31,7 +32,7 @@ public class AuthenticationManager implements ReactiveAuthenticationManager {
                 .switchIfEmpty(Mono.empty())
                 .map(valid -> {
                     Claims claims = jwtUtil.getAllClaimsFromToken(authToken);
-                    List<String> rolesMap = claims.get("role", List.class);
+                    List<String> rolesMap = claims.get(AuthConstants.ROLE, List.class);
                     UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken(
                             username,
                             null,
