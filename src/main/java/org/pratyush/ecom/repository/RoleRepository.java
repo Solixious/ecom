@@ -3,9 +3,9 @@ package org.pratyush.ecom.repository;
 import lombok.extern.slf4j.Slf4j;
 import org.jooq.DSLContext;
 import org.jooq.Record1;
+import org.pratyush.ecom.constants.Role;
 import org.pratyush.ecom.db.tables.records.TblRolesRecord;
 import org.pratyush.ecom.model.dto.User;
-import org.pratyush.ecom.constants.Role;
 import org.pratyush.ecom.model.request.AddNewRoleRequest;
 import org.pratyush.ecom.model.request.UserRegistrationRequest;
 import org.springframework.stereotype.Repository;
@@ -31,19 +31,27 @@ public class RoleRepository {
     public Mono<Boolean> addNewRole(AddNewRoleRequest request) {
         TblRolesRecord record = dsl.newRecord(TBL_ROLES, request);
         return Mono.from(
-                dsl.insertInto(TBL_ROLES)
-                        .set(record))
+                        dsl.insertInto(TBL_ROLES)
+                                .set(record))
                 .map(i -> i > 0);
+    }
+
+    public Flux<String> getRoles() {
+        return Flux.from(
+                        dsl.select(TBL_ROLES.ROLE)
+                                .from(TBL_ROLES)
+                )
+                .map(Record1::value1);
     }
 
     public Mono<User> attachRoles(User user) {
         return Flux.from(
-                dsl.select(TBL_ROLES.ROLE)
-                        .from(TBL_ROLES)
-                        .join(TBL_USER_ROLES)
-                        .on(TBL_USER_ROLES.ROLE_ID.eq(TBL_ROLES.ID))
-                        .where(TBL_USER_ROLES.USER_ID.eq(user.getId()))
-        )
+                        dsl.select(TBL_ROLES.ROLE)
+                                .from(TBL_ROLES)
+                                .join(TBL_USER_ROLES)
+                                .on(TBL_USER_ROLES.ROLE_ID.eq(TBL_ROLES.ID))
+                                .where(TBL_USER_ROLES.USER_ID.eq(user.getId()))
+                )
                 .map(this::toRoleString)
                 .collectList()
                 .map(list -> updateRoleList(user, list));
