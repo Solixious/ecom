@@ -5,6 +5,8 @@ CREATE TABLE IF NOT EXISTS tbl_users (
     surname         VARCHAR(32),
     date_of_birth   DATE NOT NULL,
     password        VARCHAR(255) NOT NULL,
+    display_picture VARCHAR(128),
     create_date     TIMESTAMP NOT NULL DEFAULT NOW(),
-    update_date     TIMESTAMP NOT NULL DEFAULT NOW()
+    update_date     TIMESTAMP NOT NULL DEFAULT NOW(),
+    active          BOOLEAN DEFAULT true
 );
