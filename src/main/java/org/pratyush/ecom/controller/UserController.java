@@ -1,5 +1,6 @@
 package org.pratyush.ecom.controller;
 
+import lombok.RequiredArgsConstructor;
 import org.pratyush.ecom.constants.UrlPath;
 import org.pratyush.ecom.model.request.AuthRefreshRequest;
 import org.pratyush.ecom.model.request.AuthRequest;
@@ -17,10 +18,10 @@ import reactor.core.publisher.Mono;
 
 @RestController
 @RequestMapping(UrlPath.USER)
+@RequiredArgsConstructor
 public class UserController {
 
-    @Autowired
-    private UserService userService;
+    private final UserService userService;
 
     @PostMapping(UrlPath.REGISTER)
     public Mono<ResponseEntity<UserRegistrationResponse>> register(@RequestBody Mono<UserRegistrationRequest> request) {

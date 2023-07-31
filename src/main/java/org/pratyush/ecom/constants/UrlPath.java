@@ -13,4 +13,7 @@ public interface UrlPath {
 
     // Role Endpoints
     String ROLE = "/role";
+
+    // Merchant Endpoints
+    String MERCHANT = "/merchant";
 }

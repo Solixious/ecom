@@ -1,5 +1,6 @@
 package org.pratyush.ecom.controller;
 
+import lombok.RequiredArgsConstructor;
 import org.pratyush.ecom.constants.UrlPath;
 import org.pratyush.ecom.model.request.AddNewRoleRequest;
 import org.pratyush.ecom.model.response.AddNewRoleResponse;
@@ -12,10 +13,10 @@ import reactor.core.publisher.Mono;
 
 @RestController
 @RequestMapping(UrlPath.ROLE)
+@RequiredArgsConstructor
 public class RoleController {
 
-    @Autowired
-    private RoleService roleService;
+    private final RoleService roleService;
 
     @PostMapping
     public Mono<ResponseEntity<AddNewRoleResponse>> addNewRole(@RequestBody Mono<AddNewRoleRequest> request) {
